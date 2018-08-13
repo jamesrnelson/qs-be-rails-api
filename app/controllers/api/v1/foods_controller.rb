@@ -34,6 +34,10 @@ class Api::V1::FoodsController < ApplicationController
     end
   end
 
+  def destroy
+    Food.find(params[:id]).destroy
+  end
+
   private
 
     def food_params
