@@ -30,4 +30,27 @@ describe 'patch request to /api/v1/foods/:id' do
     updated_food = JSON.parse(response.body, symbolize_names: true)
     expect(updated_food).to eq(expected2)
   end
+
+  it 'should receive a 400 status code if patch request does not find food item' do
+    food1 = Food.create(name: 'Milkshake', calories: 875)
+    bad_id = 1000000
+
+    patch "/api/v1/foods/#{bad_id}", params: { food: { name: food1.name, calories: 800 } }
+
+    expect(response.status).to eq(400)
+  end
+
+  it 'should receive a 400 status code if not all attibutes are provided' do
+    food1 = Food.create(name: 'Milkshake', calories: 875)
+    new_food_name = 'Hobgoblin'
+    new_food_calories = 5000
+
+    patch "/api/v1/foods/#{food1.id}", params: { food: { name: new_food_name } }
+
+    expect(response.status).to eq(400)
+
+    patch "/api/v1/foods/#{food1.id}", params: { food: { calories: new_food_calories } }
+
+    expect(response.status).to eq(400)
+  end
 end
