@@ -23,4 +23,12 @@ describe 'delete request to /api/v1/foods/:id' do
 
     expect(food).to eq(expected)
   end
+
+  it 'should send a 404 for a nonexistent record' do
+    nonexistent_record = 1000000
+
+    delete "/api/v1/foods/#{nonexistent_record}"
+
+    expect(response.status).to eq(404)
+  end
 end
