@@ -21,9 +21,17 @@ class Api::V1::FoodsController < ApplicationController
   end
 
   def update
-    food = Food.find(params[:id])
-    food.update(food_params)
-    render json: food
+    if Food.exists?(params[:id])
+      food = Food.find(params[:id])
+      if params[:food][:name] && params[:food][:calories]
+        food.update(food_params)
+        render json: food
+      else
+        render status: 400
+      end
+    else
+      render status: 400
+    end
   end
 
   private
