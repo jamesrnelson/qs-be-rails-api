@@ -6,10 +6,28 @@ describe 'Foods API' do
     food2 = Food.create(name: 'Apple', calories: 100)
     food3 = Food.create(name: 'cherry', calories: 50)
 
+    expected = [
+      {
+        'id': food1.id,
+        'name': food1.name,
+        'calories': food1.calories,
+      },
+      {
+        'id': food2.id,
+        'name': food2.name,
+        'calories': food2.calories,
+      },
+      {
+        'id': food3.id,
+        'name': food3.name,
+        'calories': food3.calories,
+      }
+    ]
+
     get '/api/v1/foods'
     expect(response).to be_success
 
-    foods = JSON.parse(response.body)
+    foods = JSON.parse(response.body, symbolize_names: true)
     expect(foods.count).to eq(3)
   end
 
@@ -17,7 +35,7 @@ describe 'Foods API' do
   it 'can show an individual food' do
     food1 = Food.create(name: 'Steak', calories: 600)
     id = food1.id
-    
+
     get "/api/v1/foods/#{id}"
     expect(response).to be_success
     food = JSON.parse(response.body)
