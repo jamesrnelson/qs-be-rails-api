@@ -29,6 +29,7 @@ describe 'Foods API' do
 
     foods = JSON.parse(response.body, symbolize_names: true)
     expect(foods.count).to eq(3)
+    expect(foods).to eq(expected)
   end
 
 
