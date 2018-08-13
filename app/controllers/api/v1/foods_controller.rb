@@ -20,6 +20,12 @@ class Api::V1::FoodsController < ApplicationController
     end
   end
 
+  def update
+    food = Food.find(params[:id])
+    food.update(food_params)
+    render json: food
+  end
+
   private
 
     def food_params
