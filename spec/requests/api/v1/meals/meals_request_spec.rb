@@ -169,4 +169,12 @@ describe 'get request to /api/v1/meals/:id/foods' do
     meal = JSON.parse(response.body, symbolize_names: true)
     expect(meal).to eq(expected)
   end
+
+  it 'should return a 404 if a meal with that id is not found' do
+    nonexistent_meal = 1000000
+
+    get "/api/v1/meals/#{nonexistent_meal}/foods"
+
+    expect(response.status).to eq(404)
+  end
 end
