@@ -31,4 +31,24 @@ describe 'post /api/v1/meals/:meal_id/foods/:id' do
 
     expect(meal).to eq(expected)
   end
+
+  it 'should return a 404 if the meal cannot be found' do
+    meal1 = Meal.create(name: 'Breakfast')
+    food1 = Food.create(name: 'Banana', calories: 150)
+    nonexistent_id = 1000000
+
+    post "/api/v1/meals/#{nonexistent_id}/foods/#{food1.id}"
+
+    expect(response.status).to eq(404)
+  end
+
+  it 'should return a 404 if the food cannot be found' do
+    meal1 = Meal.create(name: 'Breakfast')
+    food1 = Food.create(name: 'Banana', calories: 150)
+    nonexistent_id = 1000000
+
+    post "/api/v1/meals/#{meal1.id}/foods/#{nonexistent_id}"
+
+    expect(response.status).to eq(404)
+  end
 end
