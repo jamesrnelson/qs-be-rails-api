@@ -9,4 +9,11 @@ class Api::V1::MealFoodsController < ApplicationController
       render status: 404
     end
   end
+
+  def destroy
+    food = Food.find(params[:id])
+    meal = Meal.find(params[:meal_id])
+    MealFood.find_by(meal_id: params[:meal_id], food_id: params[:id]).destroy
+    render json: { message: "Successfully removed #{food.name} from #{meal.name}" }.to_json, status: 201
+  end
 end
